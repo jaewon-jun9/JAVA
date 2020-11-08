@@ -7,20 +7,29 @@ public class monthDayDemo {
         return monthDays;
     }
 //1일 이 시작하는 요일 생성    
-//     public static int[] getIniDay(int year, int month) {
-//         return iniDay;
-//     }
+    public static int getIniDay(int year, int month) {
+        int weekDays = 0;
+        for (int i = 1; i<year; i++){
+            if (i%4==0){weekDays = weekDays + 366;} else {weekDays = weekDays + 365;}
+        }
+        int[] monthDays=getMonthdata(year);
+        for (int i = 1; i<month; i++){
+            weekDays=weekDays+monthDays[i-1];
+        }
+        int iniDay=(weekDays)%7;
+        return iniDay;
+    }
 //testcode 1년 1월 기준 달력 생성
     public static void main(String[] args) {
         int year = 1;//연도 지정
-        int month = 1;//월 지정
-        int iniDay = 1;//시작요일(0==일요일~6==토요일)
+        int month = 2;//월 지정
+        int iniDay = getIniDay(year, month);//시작요일(0==일요일~6==토요일)
         int[] monthDays = getMonthdata(year);
         int[][] calendar = new int[6][7];
         for (int i = 0; i< monthDays[month-1]; i++){
             int a = (iniDay+i)/7;
             int b = (i+iniDay)%7;
-            calendar[a][b] = i+1;
+            calendar[a][b] = i;
             }
         System.out.println("\t\t    "+year+" 년 "+month + " 월\n"+"\n일\t월\t화\t수\t목\t금\t토\n"); //달력의 헤더
         for (int e[] : calendar) {
