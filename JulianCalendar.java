@@ -7,17 +7,19 @@ public class JulianCalendar {//각 월의 날짜 수, 1년 1월 1일 월요일, 
         return monthDays;
     }
     public static int getIniDay(int year, int month) {//1일이 시작하는 요일 생성    
-        int firstDay = 1;
+        int firstDay = 0;
         int weekDays = 0;
-        for (int i = 2; i<year; i++){
-            if (i==year){//윤년 평년 구분하여 전체 날짜를 합산 후 7로 나눠서 사용
-            } else if (i%4==0){weekDays = weekDays + 366;} else {weekDays = weekDays + 365;}
-        }//달력 만들 직전년도까지 합산
+        int iniDay = 0;
+        if (year==1){
+            iniDay=firstDay;
+        } else{
+            weekDays=(year-1)/4;
+            iniDay=(weekDays+year-1)%7;//7로 나눈 나머지를 1일의 시작 요일로 사용
+        }
         int[] monthDays=getMonthdata(year);
         for (int i = 1; i<month; i++){//달력 만들 직전 월 까지 합산
-            if (i==month){} else {weekDays=weekDays+monthDays[i-1];}
+            if (i==month){} else {iniDay=(iniDay+monthDays[i-1])%7;}
         }
-        int iniDay=(weekDays+firstDay)%7;//7로 나눈 나머지를 1일의 시작 요일로 사용
         return iniDay; //시작요일 위치 반환
     }
     public static void getMonCal(int year, int month) {//월별 달력 생성
